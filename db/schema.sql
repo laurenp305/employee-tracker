@@ -28,7 +28,7 @@ CREATE TABLE employee (
   department_id INT,
   role_id INT NOT NULL,
   manager_id INT,
-  added BOOLEAN,
+  lead_role BOOLEAN,
   PRIMARY KEY(id),
   FOREIGN KEY(department_id) REFERENCES departments(id),
   FOREIGN KEY(role_id) REFERENCES roles(id),
