@@ -2,6 +2,20 @@ const {prompt} = require('inquirer');
 const cTable = require('console.table');
 const connection = require('.connection.js');
 
+//figlet for the title font 
+import figlet from 'figlet';
+import standard from 'figlet/importable-fonts/Standard.js'
+
+// //creating title for app
+figlet('Welcome to Employee Tracker!', function(err, data) {
+    if (err) {
+        console.log('Something went wrong...');
+        console.dir(err);
+        return;
+    }
+    console.log(data)
+});
+
 //prompts for adding, deleting, and viewing employees 
 const questions = [{
     type: 'list', 
@@ -65,7 +79,7 @@ const queryEmpInfo = 'SELECT id, first_name, last_name FROM employee';
 const queryRoleMang = 'SELECT id FROM roles';
 const queryEmpChoices = 'SELECT CONCAT(first_name, " ", last_name) AS name FROM employee';
 
-const queryAddEmpoyee = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)';
+const queryAddEmployee = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)';
 const queryAddDepartment = 'INSERT INTO department (dept_name) VALUES (?)';
 const queryAddRole = 'INSERT INTO roles (job_title, salary, department_id) VALUES (?, ?, ?)';
 
@@ -102,6 +116,15 @@ const findDept = (query) => {
         if (err) throw err;
         console.log(`\n\n ***All ${res.length} Departments*** \n\n`)
         console.table(res);
+        init();
+    }
+    )}
+
+//function for adding an employee
+const addEmp = (query, values) => {
+    connection.query(queryAddEmployee, values, (err, res) => {
+        if (err) throw err;
+        console.log(`\n\n ***${res.affectedRows} Employee Added*** \n\n`)
         init();
     }
     )}
