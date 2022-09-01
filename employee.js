@@ -69,6 +69,10 @@ const queryAddEmpoyee = 'INSERT INTO employee (first_name, last_name, role_id, m
 const queryAddDepartment = 'INSERT INTO department (dept_name) VALUES (?)';
 const queryAddRole = 'INSERT INTO roles (job_title, salary, department_id) VALUES (?, ?, ?)';
 
+const queryChangeEmp = 'UPDATE employee SETT ? WHERE ?';
+const queryChangeRole = 'UPDATE roles SET ? WHERE ?';
+const queryDeleteEmp = 'DELETE FROM employee WHERE ?';
+
 
 
 
