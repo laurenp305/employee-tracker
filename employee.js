@@ -80,10 +80,22 @@ const queryDeleteEmp = 'DELETE FROM employee WHERE ?';
 const findEmp = (query) => {
     connection.query(queryEmpDetails, (err, res) => {
         if (err) throw err;
-        console.log('\n\n ***All Employees*** \n\n')
+        console.log(`\n\n ***All ${res.length} Employees*** \n\n`)
         console.table(res);
         init();
     }
     )};
+
+//function for searching for role information
+const findRole = (query) => {
+    connection.query(queryRolesDetails, (err, res) => {
+        if (err) throw err;
+        console.log(`\n\n ***All ${res.length} Roles*** \n\n`)
+        console.table(res);
+        init();
+    }
+    )}
+
+
 
 
