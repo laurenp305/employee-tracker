@@ -110,7 +110,7 @@ const queryDeleteEmp = 'DELETE FROM employee WHERE ?';
 
 //Defining functions for each query
 
-//function for searching for employee information
+//function to view all employees
 const viewAllEmployees = () => {
     connection.query(queryEmpDetails, (err, res) => {
         if (err) throw err;
@@ -119,7 +119,15 @@ const viewAllEmployees = () => {
     });
         init();
 };
-
+//function to view all departments
+const viewAllDepartments = () => {
+    connection.query(queryDept, (err, res) => {
+        if (err) throw err;
+        console.log(`\n${res.length} departments found.\n`);
+        console.table(res);
+    });
+        init();
+}
 
 
 
