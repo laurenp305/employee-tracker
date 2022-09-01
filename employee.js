@@ -24,11 +24,16 @@ const questions = [{
     choices: [
         'View all employees',
         'View all departments',
-        'View all roles',
+        'View all employees by department',
         'Add an employee',
-        'Add a department',
+        'Remove employee',
+        'Change employee role',
+        'Change employee manager',
+        'View all roles',
         'Add a role',
-        'Delete an employee',
+        'Remove a role',
+        'Add a department',
+        'Remove a department',
         'Done'
     ]
 }];
@@ -45,20 +50,35 @@ const init = () => {
             case 'View all departments':
                 viewAllDepartments();
                 break;
-            case 'View all roles':
-                viewAllRoles();
+            case 'View all employees by department':
+                viewAllEmployeesByDept();
                 break;
             case 'Add an employee':
                 addEmployee();
                 break;
-            case 'Add a department':
-                addDepartment();
+            case 'Remove employee':
+                removeEmployee();
+                break;
+            case 'Change employee role':
+                changeEmployeeRole();
+                break;
+            case 'Change employee manager':
+                changeEmployeeManager();
+                break;
+            case 'View all roles':
+                viewAllRoles();
                 break;
             case 'Add a role':
                 addRole();
                 break;
-            case 'Delete an employee':
-                deleteEmployee();
+            case 'Remove a role':
+                removeRole();
+                break;
+            case 'Add a department':
+                addDepartment();
+                break;
+            case 'Remove a department':
+                removeDepartment();
                 break;
             case 'Done':
                 connection.end();
