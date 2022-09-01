@@ -96,6 +96,15 @@ const findRole = (query) => {
     }
     )}
 
+//function for finding a department
+const findDept = (query) => {
+    connection.query(queryDept, (err, res) => {
+        if (err) throw err;
+        console.log(`\n\n ***All ${res.length} Departments*** \n\n`)
+        console.table(res);
+        init();
+    }
+    )}
 
 
 
