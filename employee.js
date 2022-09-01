@@ -53,6 +53,21 @@ const init = () => {
     });
 }
 
+//Defining queries for each function
+const queryEmp = 'SELECT * FROM employee';
+const queryRole = 'SELECT * FROM roles';
+const queryDept = 'SELECT * FROM departments';
+
+const queryEmpDetails = 'SELECT employee.id, employee.first_name, employee.last_name, roles.job_title, roles.salary, departments.dept_name FROM employee LEFT JOIN roles ON employees.role_id = roles.id LEFT JOIN departments ON roles.department_id = departments.id;';
+const queryRolesDetails = 'SELECT roles.id, roles.job_title, roles.salary, departments.dept_name FROM role LEFT JOIN department ON roles.department_id = departments.id;';
+
+const queryEmpInfo = 'SELECT id, first_name, last_name FROM employee';
+const queryRoleMang = 'SELECT id FROM roles';
+const queryEmpChoices = 'SELECT CONCAT(first_name, " ", last_name) AS name FROM employee';
+
+const queryAddEmpoyee = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)';
+const queryAddDepartment = 'INSERT INTO department (dept_name) VALUES (?)';
+const queryAddRole = 'INSERT INTO roles (job_title, salary, department_id) VALUES (?, ?, ?)';
 
 
 
