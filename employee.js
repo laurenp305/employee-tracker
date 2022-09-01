@@ -74,7 +74,16 @@ const queryChangeRole = 'UPDATE roles SET ? WHERE ?';
 const queryDeleteEmp = 'DELETE FROM employee WHERE ?';
 
 
+//Defining functions for each query
 
-
+//function for searching for employee information
+const findEmp = (query) => {
+    connection.query(queryEmpDetails, (err, res) => {
+        if (err) throw err;
+        console.log('\n\n ***All Employees*** \n\n')
+        console.table(res);
+        init();
+    }
+    )};
 
 
