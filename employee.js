@@ -111,14 +111,21 @@ const queryDeleteEmp = 'DELETE FROM employee WHERE ?';
 //Defining functions for each query
 
 //function for searching for employee information
-const findEmp = (query) => {
+const viewAllEmployees = () => {
     connection.query(queryEmpDetails, (err, res) => {
         if (err) throw err;
-        console.log(`\n\n ***All ${res.length} Employees*** \n\n`)
+        console.log(`\n${res.length} employees found.\n`);
         console.table(res);
+    });
         init();
-    }
-    )};
+};
+
+
+
+
+
+
+
 
 //function for searching for role information
 const findRole = (query) => {
