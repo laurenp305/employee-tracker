@@ -237,6 +237,30 @@ connection.query(query, function (err, res) {
 }
 )};
 
+//Prompts choices to delete employee
+function promptDelete(removeEmployeeChoices) {
+    inquirer.prompt([
+        {
+            type: 'list',
+            name: 'id',
+            message: 'Which employee would you like to remove?',
+            choices: removeEmployeeChoices
+        }
+    ])
+        .then(function (answer) {
+            console.log("answer", answer);
+            
+            var query = `DELETE FROM employee WHERE ?`
+            
+            connection.query(query, answer, function (err, res) {
+                if (err) throw err;
+                console.table("response", res);
+                console.log(res.affectedRows + "You removed an employee!\n");
+                prompts();
+            });
+        });
+}
+
 // //Defining queries for each function
 // const queryEmp = 'SELECT * FROM employee';
 // const queryRole = 'SELECT * FROM roles';
@@ -257,5 +281,3 @@ connection.query(query, function (err, res) {
 // const queryChangeRole = 'UPDATE roles SET ? WHERE ?';
 // const queryDeleteEmp = 'DELETE FROM employee WHERE ?';
 
-
-//function to view all employees
