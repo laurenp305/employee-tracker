@@ -98,11 +98,11 @@ function viewAllEmployees() {
         if (err) throw err;
         console.table(res);
         console.log("You viewed all employees!\n");
-
-
-    }
+    
+        prompts();
     });
 }
+
 // //Defining queries for each function
 // const queryEmp = 'SELECT * FROM employee';
 // const queryRole = 'SELECT * FROM roles';
