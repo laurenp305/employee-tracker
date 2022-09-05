@@ -339,7 +339,7 @@ function promptEmployeeRole(employeeOptions, roleChoices) {
         });
 }
 
-//function to add role
+//add employee role array
 function addEmployeeRole() {
     var query = 
     `SELECT department.id, department.dept_name, roles.salary AS budget 
@@ -351,36 +351,51 @@ function addEmployeeRole() {
     connection.query(query, function (err, res) {
         if (err) throw err;
     
-    const listOfDepartments = res.map(({ id, dept_name, budget }) => ({
+    const departmentOptions = res.map(({ id, dept_name, budget }) => ({
         value: id, name: `${dept_name}`, budget: `${budget}`
     }));
 
     console.table(res);
     console.log("Choose department to add role\n");
 
-    promptRole(listOfDepartments);
+    promptAddEmployeeRole(departmentOptions);
 }
 )};
 
+//Prompts choices to user so they can add an employee role
+function promptAddEmployeeRole(departmentOptions) {
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'role_title',
+            message: 'Choose role title to add role.',
+            choices: departmentOptions
+        },
+        {
+            type: 'input',
+            name: 'role_salary',
+            message: 'What is the role salary?',
+        },
+        {
+            type: 'input',
+            name: 'department_id',
+            message: departmentOptions
+        },
+    ])
+        .then(function (answer) {
+            console.log("answer", answer);
+            
+            var query = `INSERT INTO roles SET ?`
+            
+            connection.query(query, answer, function (err, res) {
 
+                if (err) throw err;
 
-// //Defining queries for each function
-// const queryEmp = 'SELECT * FROM employee';
-// const queryRole = 'SELECT * FROM roles';
-// const queryDept = 'SELECT * FROM departments';
+                console.table("response", res);
+                console.log(res.affectedRows + "You added a role!\n");
 
-// const queryEmpDetails = 'SELECT employee.id, employee.first_name, employee.last_name, roles.job_title, roles.salary, departments.dept_name FROM employee LEFT JOIN roles ON employees.role_id = roles.id LEFT JOIN departments ON roles.department_id = departments.id;';
-// const queryRolesDetails = 'SELECT roles.id, roles.job_title, roles.salary, departments.dept_name FROM role LEFT JOIN department ON roles.department_id = departments.id;';
-
-// const queryEmpInfo = 'SELECT id, first_name, last_name FROM employee';
-// const queryRoleMang = 'SELECT id FROM roles';
-// const queryEmpChoices = 'SELECT CONCAT(first_name, " ", last_name) AS name FROM employee';
-
-// const queryAddEmployee = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)';
-// const queryAddDepartment = 'INSERT INTO department (dept_name) VALUES (?)';
-// const queryAddRole = 'INSERT INTO roles (job_title, salary, department_id) VALUES (?, ?, ?)';
-
-// const queryChangeEmp = 'UPDATE employee SETT ? WHERE ?';
-// const queryChangeRole = 'UPDATE roles SET ? WHERE ?';
-// const queryDeleteEmp = 'DELETE FROM employee WHERE ?';
+                prompts();
+            });
+        });
+}
 
