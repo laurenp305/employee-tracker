@@ -17,7 +17,7 @@ CREATE TABLE roles (
   salary DECIMAL,
   department_id INT,
   PRIMARY KEY(id),
-  FOREIGN KEY(deptartment_id) REFERENCES departments(id)
+  FOREIGN KEY(department_id) REFERENCES departments(id)
 );
 
 -- creates employee table with foreign keys to departments table, roles table, and the same table --
@@ -32,7 +32,7 @@ CREATE TABLE employee (
   PRIMARY KEY(id),
   FOREIGN KEY(department_id) REFERENCES departments(id),
   FOREIGN KEY(role_id) REFERENCES roles(id),
-  FOREIGN KEY(manager_id) REFERENCES employees(id)
+  FOREIGN KEY(manager_id) REFERENCES employee(id)
 );
 
 -- makes manager ID null if no manager is assigned --
