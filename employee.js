@@ -180,6 +180,39 @@ connection.query(query, function (err, res) {
 }
 )};
 
+//prompts and choices for adding employee
+function promptInsert(listOfRoles) {
+    inquirer.prompt([
+        {
+            name: 'first_name',
+            type: 'input',
+            message: 'What is the employee first name?'
+        },
+        {
+            name: 'last_name',
+            type: 'input',
+            message: 'What is the employee last name?'
+        },
+        {
+            type: 'list',
+            name: 'role_id',
+            message: 'What is the employee role id?',
+            choices: listOfRoles
+        }
+    ])
+        .then(function (answer) {
+            console.log("answer", answer);
+            
+            var query = `INSERT INTO employee SET ?`
+            
+            connection.query(query, answer, function (err, res) {
+                if (err) throw err;
+                console.table("response", res);
+                console.log(res.affectedRows + "You added an employee!\n");
+                prompts();
+            });
+        });
+}
 
 
 // //Defining queries for each function
