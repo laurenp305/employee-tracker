@@ -237,7 +237,7 @@ connection.query(query, function (err, res) {
 }
 )};
 
-//Prompts choices to delete employee
+//Prompts choices to user so they can delete an employee
 function promptDelete(removeEmployeeChoices) {
     inquirer.prompt([
         {
@@ -260,6 +260,56 @@ function promptDelete(removeEmployeeChoices) {
             });
         });
 }
+
+//Update an employee's role
+function updateEmployeeRole() {
+    listOfEmployees();
+}
+
+
+function listOfEmployees() {
+    console.log("Updating an employee's role\n");
+
+    var query = `SELECT employee.id, employee.first_name, employee.last_name, roles.job_title, departments.dept_name AS department, roles.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager
+    FROM employee
+    LEFT JOIN role ON employee.role_id = roles.id
+    LEFT JOIN department ON roles.department_id = departments.id
+    LEFT JOIN employee manager ON manager.id = employee.manager_id`
+
+    connection.query(query, function (err, res) {
+        if (err) throw err;
+
+    const employeeOptions = res.map(({ id, first_name, last_name, title, department, salary, manager }) => ({
+        value: id, name: `${first_name} ${last_name}`, title: `${title}`, department: `${department}`, salary: `${salary}`, manager: `${manager}`
+    }));
+
+    console.table(res);
+    console.log("Choose employee to update\n");
+
+    rolesChoices(employeeOptions);
+}
+)};
+
+//Create an array of roles to update employee role
+function rolesChoices(employeeOptions) {
+    console.log("Update employee's role\n");
+
+    var query = 
+    `SELECT roles.id, roles.job_title, roles.salary, departments.dept_name AS department
+    FROM roles`
+
+    let roleChoices;
+
+    connection.query(query, function (err, res) {
+        if (err) throw err;
+        
+        roleChoices = res.map(({ id, title, salary, department }) => ({
+            value: id, title: `${title}`, salary: `${salary}`, department: `${department}`
+        }));
+    });
+}
+
+
 
 // //Defining queries for each function
 // const queryEmp = 'SELECT * FROM employee';
