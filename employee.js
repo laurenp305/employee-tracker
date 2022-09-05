@@ -94,8 +94,8 @@ function viewAllEmployees() {
 
     var query = `SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager
     FROM employee
-    LEFT JOIN role ON employee.role_id = role.id
-    LEFT JOIN department ON role.department_id = department.id
+    LEFT JOIN role ON employee.role_id = roles.id
+    LEFT JOIN department ON role.department_id = departments.id
     LEFT JOIN employee manager ON manager.id = employee.manager_id`
 
     connection.query(query, function (err, res) {
@@ -107,6 +107,31 @@ function viewAllEmployees() {
     });
 }
 
+//view all employees by department 
+function viewAllEmployeesByDepartment() {
+    console.log("Viewing all employees by department\n");
+
+    var query = 
+    `SELECT employees.id, employees.first_name, employees.last_name, roles.title, departments.name AS department, roles.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager
+    FROM employee
+    LEFT JOIN role ON employees.role_id = roles.id
+    LEFT JOIN department ON roles.department_id = departments.id
+    LEFT JOIN employee manager ON manager.id = employee.manager_id
+    ORDER BY departments.dept_name`
+
+    connection.query(query, function (err, res) {
+        if (err) throw err;
+        
+        const listOfDepartments = res.map(data => ({
+            value: data.id, name: data.name
+        }));
+
+        console.table(res);
+        console.log("You viewed all employees by department!\n");
+
+        promptDepartments(listOfDepartments);
+    });
+}
 
 // //Defining queries for each function
 // const queryEmp = 'SELECT * FROM employee';
