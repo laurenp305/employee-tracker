@@ -8,13 +8,13 @@ const connection = mysql.createConnection({
     port: 3306,
     user: "root",
     password: "SuperSecretPassword",
-    database: "employee_trackerDB"
+    database: "employee_trackerDB"  
 });
 
 //figlet for the title font 
 import figlet from 'figlet';
 
-// //creating title for app
+//creates title for app
 figlet('Welcome to Employee Tracker!', function(err, data) {
     if (err) {
         console.log('Something went wrong...');
@@ -30,18 +30,16 @@ const questions = [{
     name: 'action',
     message: 'What do you want to see first?',
     choices: [
-        'View all employees',
         'View all departments',
-        'View all employees by department',
-        'Add an employee',
-        'Remove employee',
-        'Change employee role',
-        'Change employee manager',
         'View all roles',
-        'Add a role',
-        'Remove a role',
+        'View all employees',
         'Add a department',
+        'Add a role',
+        'Add an employee',
         'Remove a department',
+        'Remove a role',
+        'Remove an employee',
+        'Change employee role',
         'Done'
     ]
 }];
@@ -52,41 +50,35 @@ const init = () => {
 
     .then((responses) => {
         switch(responses.action) {
-            case 'View all employees':
-                viewAllEmployees();
-                break;
             case 'View all departments':
                 viewAllDepartments();
-                break;
-            case 'View all employees by department':
-                viewAllEmployeesByDept();
-                break;
-            case 'Add an employee':
-                addEmployee();
-                break;
-            case 'Remove employee':
-                removeEmployee();
-                break;
-            case 'Change employee role':
-                changeEmployeeRole();
-                break;
-            case 'Change employee manager':
-                changeEmployeeManager();
-                break;
+                break;  
             case 'View all roles':
                 viewAllRoles();
                 break;
-            case 'Add a role':
-                addRole();
-                break;
-            case 'Remove a role':
-                removeRole();
+            case 'View all employees':
+                viewAllEmployees();
                 break;
             case 'Add a department':
                 addDepartment();
                 break;
+            case 'Add a role':
+                addRole();
+                break;
+            case 'Add an employee':
+                addEmployee();
+                break;
             case 'Remove a department':
                 removeDepartment();
+                break;
+            case 'Remove a role':
+                removeRole();
+                break;
+            case 'Remove an employee':
+                removeEmployee();
+                break;
+            case 'Change employee role':
+                changeRole();
                 break;
             case 'Done':
                 connection.end();
