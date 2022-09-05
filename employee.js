@@ -33,6 +33,7 @@ function prompts() {
         message: 'What do you want to see first?',
         choices: [
             'View all departments',
+            'View all employees by deparment',
             'View all roles',
             'View all employees',
             'Add a department',
@@ -48,6 +49,9 @@ function prompts() {
         .then(function ({ task }) {
             switch (task) {
                 case 'View all departments':
+                    viewAllDepartments();
+                    break;
+                case 'View all employees by department':
                     viewAllDepartments();
                     break;
                 case 'View all roles':
@@ -102,6 +106,7 @@ function viewAllEmployees() {
         prompts();
     });
 }
+
 
 // //Defining queries for each function
 // const queryEmp = 'SELECT * FROM employee';
