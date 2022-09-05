@@ -112,9 +112,9 @@ function viewAllEmployeesByDepartment() {
     console.log("Viewing all employees by department\n");
 
     var query = 
-    `SELECT employees.id, employees.first_name, employees.last_name, roles.title, departments.name AS department, roles.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager
+    `SELECT employees.id, employees.first_name, employees.last_name, roles.job_title, departments.dept_name AS department, roles.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager
     FROM employee
-    LEFT JOIN role ON employees.role_id = roles.id
+    LEFT JOIN role ON employee.role_id = roles.id
     LEFT JOIN department ON roles.department_id = departments.id
     LEFT JOIN employee manager ON manager.id = employee.manager_id
     ORDER BY departments.dept_name`
@@ -164,7 +164,7 @@ function promptDepartments(listOfDepartments) {
 //add employee and create array 
 function addEmployee() {
     console.log("Adding an employee\n");
-    var query = `SELECT roles.id, roles.title, roles.salary, departments.name AS department
+    var query = `SELECT roles.id, roles.job_title, roles.salary, departments.dept_name AS department
     FROM roles`
 connection.query(query, function (err, res) {
     if (err) throw err;
@@ -214,6 +214,28 @@ function promptInsert(listOfRoles) {
         });
 }
 
+//Create an employee array to delete employee
+function removeEmployee() {
+    console.log("Removing an employee\n");
+    var query = `SELECT employee.id, employee.first_name, employee.last_name, roles.job_title, departments.dept_name AS department, roles.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager
+    FROM employee
+    LEFT JOIN role ON employee.role_id = roles.id
+    LEFT JOIN department ON roles.department_id = departments.id
+    LEFT JOIN employee manager ON manager.id = employee.manager_id`
+
+connection.query(query, function (err, res) {
+    if (err) throw err;
+    
+    const removeEmployeeChoices = res.map(({ id, first_name, last_name, title, department, salary, manager }) => ({
+        value: id, name: `${first_name} ${last_name}`, title: `${title}`, department: `${department}`, salary: `${salary}`, manager: `${manager}`
+    }));
+
+    console.table(res);
+    console.log("Choose employee to remove\n");
+
+    promptDelete(removeEmployeeChoices);
+}
+)};
 
 // //Defining queries for each function
 // const queryEmp = 'SELECT * FROM employee';
