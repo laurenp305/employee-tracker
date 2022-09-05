@@ -8,14 +8,14 @@ const connection = mysql.createConnection({
     port: 3306,
     user: "root",
     password: "SuperSecretPassword",
-    database: "employee_trackerDB"  
+    database: "employee_trackerDB"
 });
 
 //figlet for the title font 
 import figlet from 'figlet';
 
 //creates title for app
-figlet('Welcome to Employee Tracker!', function(err, data) {
+figlet('Welcome to Employee Tracker!', function (err, data) {
     if (err) {
         console.log('Something went wrong...');
         console.dir(err);
@@ -25,68 +25,84 @@ figlet('Welcome to Employee Tracker!', function(err, data) {
 });
 
 //prompts for adding, deleting, and viewing employees 
-const questions = [{
-    type: 'list', 
-    name: 'action',
-    message: 'What do you want to see first?',
-    choices: [
-        'View all departments',
-        'View all roles',
-        'View all employees',
-        'Add a department',
-        'Add a role',
-        'Add an employee',
-        'Remove a department',
-        'Remove a role',
-        'Remove an employee',
-        'Change employee role',
-        'Done'
-    ]
-}];
+function prompts() {
 
-//Passes questions to inquirer and returns the answer
-const init = () => {
-    prompt(questions)
-
-    .then((responses) => {
-        switch(responses.action) {
-            case 'View all departments':
-                viewAllDepartments();
-                break;  
-            case 'View all roles':
-                viewAllRoles();
-                break;
-            case 'View all employees':
-                viewAllEmployees();
-                break;
-            case 'Add a department':
-                addDepartment();
-                break;
-            case 'Add a role':
-                addRole();
-                break;
-            case 'Add an employee':
-                addEmployee();
-                break;
-            case 'Remove a department':
-                removeDepartment();
-                break;
-            case 'Remove a role':
-                removeRole();
-                break;
-            case 'Remove an employee':
-                removeEmployee();
-                break;
-            case 'Change employee role':
-                changeRole();
-                break;
-            case 'Done':
-                connection.end();
-                break;
-        }
-    });
+    inquirer.prompt({
+        type: 'list',
+        name: 'action',
+        message: 'What do you want to see first?',
+        choices: [
+            'View all departments',
+            'View all roles',
+            'View all employees',
+            'Add a department',
+            'Add a role',
+            'Add an employee',
+            'Remove a department',
+            'Remove a role',
+            'Remove an employee',
+            'Change employee role',
+            'Done'
+        ]
+    })
+        .then(function ({ task }) {
+            switch (task) {
+                case 'View all departments':
+                    viewAllDepartments();
+                    break;
+                case 'View all roles':
+                    viewAllRoles();
+                    break;
+                case 'View all employees':
+                    viewAllEmployees();
+                    break;
+                case 'Add a department':
+                    addDepartment();
+                    break;
+                case 'Add a role':
+                    addRole();
+                    break;
+                case 'Add an employee':
+                    addEmployee();
+                    break;
+                case 'Remove a department':
+                    removeDepartment();
+                    break;
+                case 'Remove a role':
+                    removeRole();
+                    break;
+                case 'Remove an employee':
+                    removeEmployee();
+                    break;
+                case 'Change employee role':
+                    changeRole();
+                    break;
+                case 'Done':
+                    connection.end();
+                    break;
+            }
+        });
 }
 
+//view all employees
+function viewAllEmployees() {
+    console.log("Viewing employees\n");
+
+    var query = `SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager
+    FROM employee
+    LEFT JOIN role ON employee.role_id = role.id
+    LEFT JOIN department ON role.department_id = department.id
+    LEFT JOIN employee manager ON manager.id = employee.manager_id`
+
+    connection.query(query, function (err, res) {
+        if (err) throw err;
+        console.table(res);
+        console.log("You viewed all employees!\n");
+
+
+    }
+    });
+}
 // //Defining queries for each function
 // const queryEmp = 'SELECT * FROM employee';
 // const queryRole = 'SELECT * FROM roles';
