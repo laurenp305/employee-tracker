@@ -1,3 +1,4 @@
+//required dependencies
 const mysql = require("mysql");
 const inquirer = require("inquirer");
 require("console.table");
@@ -8,7 +9,7 @@ const connection = mysql.createConnection({
     port: 3306,
     user: "root",
     password: "SuperSecretPassword",
-    database: "employee_trackerDB"
+    database: "team_DB"
 });
 
 //figlet for the title font 
