@@ -309,7 +309,35 @@ function rolesChoices(employeeOptions) {
     });
 }
 
-
+function promptEmployeeRole(employeeOptions, roleChoices) {
+    inquirer.prompt([
+        {
+            type: 'list',
+            name: 'employee_id',
+            message: 'Choose employee to update by role.',
+            choices: employeeOptions
+        },
+        {
+            type: 'list',
+            name: 'role_id',
+            message: 'Which role do you want to update?',
+            choices: roleChoices
+        }
+    ])
+        .then(function (answer) {
+            console.log("answer", answer);
+            
+            var query = `UPDATE employee SET role_id WHERE id = ?`
+            
+            //inserts new item into db
+            connection.query(query, [answer.role_id, answer.employee_id], function (err, res) {
+                if (err) throw err;
+                console.table("response", res);
+                console.log(res.affectedRows + "You updated an employee's role!\n");
+                prompts();
+            });
+        });
+}
 
 // //Defining queries for each function
 // const queryEmp = 'SELECT * FROM employee';
