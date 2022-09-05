@@ -154,12 +154,31 @@ function promptDepartments(listOfDepartments) {
 
             connection.query(query, answer.department_id, function (err, res) {
                 if (err) throw err;
-                console.table(res);
+                console.table("response", res);
                 console.log(res.affectedRows + "You viewed all employees by department!\n");
                 prompts();
             });
         }); 
 }
+
+//add employee and create array 
+function addEmployee() {
+    console.log("Adding an employee\n");
+    var query = `SELECT roles.id, roles.title, roles.salary, departments.name AS department
+    FROM roles`
+connection.query(query, function (err, res) {
+    if (err) throw err;
+    
+    const listOfRoles = res.map(({ id, title, salary, department }) => ({
+        value: id, title: `${title}`, salary: `${salary}`, department: `${department}`
+    }));
+
+    console.table(res);
+    console.log("Choose role\n");
+
+    promptEmployee(listOfRoles);
+}
+)};
 
 
 
