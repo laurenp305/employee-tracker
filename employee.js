@@ -133,6 +133,36 @@ function viewAllEmployeesByDepartment() {
     });
 }
 
+//creates an array of all departments 
+function promptDepartments(listOfDepartments) {
+    inquirer.prompt([
+        {
+            type: 'list',
+            name: 'department_id',
+            message: 'Which department would you like to view?',
+            choices: listOfDepartments
+        }
+    ])
+        .then(function (answer) {
+            console.log("answer", answer.department_id);
+            var query = `SELECT employees.id, employees.first_name, employees.last_name, roles.title, departments.name AS department, roles.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager
+            FROM employee
+            LEFT JOIN role ON employees.role_id = roles.id
+            LEFT JOIN department ON roles.department_id = departments.id
+            LEFT JOIN employee manager ON manager.id = employee.manager_id
+            WHERE departments.id = ?`
+
+            connection.query(query, answer.department_id, function (err, res) {
+                if (err) throw err;
+                console.table(res);
+                console.log(res.affectedRows + "You viewed all employees by department!\n");
+                prompts();
+            });
+        }); 
+}
+
+
+
 // //Defining queries for each function
 // const queryEmp = 'SELECT * FROM employee';
 // const queryRole = 'SELECT * FROM roles';
