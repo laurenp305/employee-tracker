@@ -339,6 +339,31 @@ function promptEmployeeRole(employeeOptions, roleChoices) {
         });
 }
 
+//function to add role
+function addEmployeeRole() {
+    var query = 
+    `SELECT department.id, department.dept_name, roles.salary AS budget 
+    FROM employee 
+    LEFT JOIN roles ON employee.role_id = roles.id
+    LEFT JOIN department ON roles.department_id = department.id
+    GROUP BY department.id, department.dept_name`
+
+    connection.query(query, function (err, res) {
+        if (err) throw err;
+    
+    const listOfDepartments = res.map(({ id, dept_name, budget }) => ({
+        value: id, name: `${dept_name}`, budget: `${budget}`
+    }));
+
+    console.table(res);
+    console.log("Choose department to add role\n");
+
+    promptRole(listOfDepartments);
+}
+)};
+
+
+
 // //Defining queries for each function
 // const queryEmp = 'SELECT * FROM employee';
 // const queryRole = 'SELECT * FROM roles';
