@@ -1,16 +1,18 @@
 //required dependencies
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const inquirer = require("inquirer");
-require("console.table");
+const consoleTable = require("console.table");
+const server = require("./server");
+var figlet = require('figlet');
 
-//establishes connection to database
-const connection = mysql.createConnection({
-    host: "localhost",
-    port: 3306,
-    user: "root",
-    password: "SuperSecretPassword",
-    database: "team_DB"
-});
+// //establishes connection to database
+// const connection = mysql.createConnection({
+//     host: "localhost",
+//     port: 3306,
+//     user: "root",
+//     password: "SuperSecretPassword",
+//     database: "team_DB"
+// });
 
 //figlet for the title font 
 import figlet from 'figlet';
@@ -400,3 +402,4 @@ function promptAddEmployeeRole(departmentOptions) {
         });
 }
 
+prompts();
