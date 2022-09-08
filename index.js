@@ -4,7 +4,9 @@ const inquirer = require("inquirer");
 const consoleTable = require("console.table");
 // const server = require("./server");
 var figlet = require('figlet');
-require("dotenv").config();
+
+//installed dotenv
+require('dotenv').config();
 
 //establishes connection to database
 const connection = mysql.createConnection({
@@ -14,7 +16,7 @@ const connection = mysql.createConnection({
     password: process.env.DB_PW,
     database: process.env.DB_NAME
 },
-console.log(`Created connection to ${DB_NAME} Database!`)
+console.log(`Created connection to ${process.env.DB_NAME} Database!`)
 );
 
 //creates title for app
@@ -151,6 +153,20 @@ function viewAllEmployeesByDepartment() {
     });
 }
 
+//view all employees
+function viewAllRoles() {
+    console.log("Viewing all roles\n");
+
+    var query = `SELECT * FROM`
+
+    connection.query(query, function (err, res) {
+        if (err) throw err;
+        console.table(res);
+        console.log("You viewed all employees!\n");
+    
+        prompts();
+    });
+}
 //creates an array of all departments 
 function promptDepartments(listOfDepartments) {
     inquirer.prompt([
