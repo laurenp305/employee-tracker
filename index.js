@@ -2,23 +2,23 @@
 const mysql = require("mysql2");
 const inquirer = require("inquirer");
 const consoleTable = require("console.table");
-const server = require("./server");
+// const server = require("./server");
 var figlet = require('figlet');
+require("dotenv").config();
 
-// //establishes connection to database
-// const connection = mysql.createConnection({
-//     host: "localhost",
-//     port: 3306,
-//     user: "root",
-//     password: "SuperSecretPassword",
-//     database: "team_DB"
-// });
-
-//figlet for the title font 
-import figlet from 'figlet';
+//establishes connection to database
+const connection = mysql.createConnection({
+    host: "localhost",
+    port: 3306,
+    user: process.env.DB_USER,
+    password: process.env.DB_PW,
+    database: process.env.DB_NAME
+},
+console.log(`Created connection to ${DB_NAME} Database!`)
+);
 
 //creates title for app
-figlet('Welcome to Employee Tracker!', function (err, data) {
+figlet('Employee Tracker!', function (err, data) {
     if (err) {
         console.log('Something went wrong...');
         console.dir(err);
@@ -49,13 +49,13 @@ function prompts() {
             'Done'
         ]
     })
-        .then(function ({ task }) {
-            switch (task) {
+        .then(function ({ action }) {
+            switch (action) {
                 case 'View all departments':
                     viewAllDepartments();
                     break;
                 case 'View all employees by department':
-                    viewAllDepartments();
+                    viewAllEmployeesByDepartment();
                     break;
                 case 'View all roles':
                     viewAllRoles();
@@ -89,6 +89,21 @@ function prompts() {
                     break;
             }
         });
+}
+
+//view all departments
+function viewAllDepartments() {
+    console.log("Viewing all departments\n");
+
+    var query = `SELECT * FROM departments`
+
+    connection.query(query, function (err, res) {
+        if (err) throw err;
+        console.table(res);
+        console.log("You viewed all departments!\n");
+    
+        prompts();
+    });
 }
 
 //view all employees
