@@ -9,19 +9,20 @@ VALUES
 
 INSERT INTO roles(job_title, salary, department_id)
 VALUES
-("Chief Executive Officer", 100000, 05),
-("Director of Sales & Marketing", 80000, 01),
-("Director of Engineering", 100000, 02),
-("Senior Engineer", 120000, 02),
-("Accountant", 90000, 03),
-("Sales Person", 50000, 01),
-("Accountant Intern", 70000, 03),
-("Senior Legal Counsel", 110000, 04),
-("Lawyer", 90000, 04),
-("Engineer", 80000, 02);
+("Chief Executive Officer", 100000, 5),
+("Director of Sales & Marketing", 80000, 1),
+("Director of Engineering", 100000, 2),
+("Senior Engineer", 120000, 2),
+("Accountant", 90000, 3),
+("Sales Person", 50000, 1),
+("Accountant Intern", 70000, 3),
+("Senior Legal Counsel", 110000, 4),
+("Lawyer", 90000, 4),
+("Engineer", 80000, 2);
 
 INSERT INTO employee(first_name, last_name, department_id, role_id, manager_id)
-("Hermione","Granger", 5, 1),
+VALUES
+("Hermione","Granger", 5, 1, 1),
 ("Harry","Potter", 5, 2, 1),
 ("Ron","Weasley", 5, 3, 1),
 ("Draco","Malfoy", 1, 6, 1),
@@ -36,23 +37,6 @@ INSERT INTO employee(first_name, last_name, department_id, role_id, manager_id)
 ("Sirius","Black", 2, 7, NULL),
 ("Bellatrix","Lestrange", 2, 2, NULL),
 ("Lord","Voldemort", 3, 2, NULL);
-
--- SELECT * FROM employee;
-
--- -- confirms true when a lead/managerial role id is chosen --
--- UPDATE employee SET lead_role = True WHERE role_id IN ("19", "20", "21", "22");
-
--- -- sets Hermione Granger as manager_id for certain role IDs -- 
--- UPDATE employee set manager_id = 0001 where role_id IN ("19", "20", "21", "22");
-
--- -- sets Harry Potter as manager_id for certain role IDs --
--- UPDATE employee set manager_id = 0002 where role_id IN ("23", "24", "25");
-
--- -- sets Ron Weasley as manager_id for certain role IDs --
--- UPDATE employee set manager_id = 0003 where role_id IN ("22", "27");
-
--- -- sets Dumbledore as manager for lawyer role ids --
--- UPDATE employee set manager_id = 0008 where role_id IN ("27");
 
 
 
