@@ -157,7 +157,7 @@ function viewAllEmployeesByDepartment() {
 function viewAllRoles() {
     console.log("Viewing all roles\n");
 
-    var query = `SELECT * FROM`
+    var query = `SELECT * FROM roles`
 
     connection.query(query, function (err, res) {
         if (err) throw err;
