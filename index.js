@@ -108,25 +108,6 @@ function viewAllDepartments() {
     });
 }
 
-//view all employees
-function viewAllEmployees() {
-    console.log("Viewing employees\n");
-
-    var query = `SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager
-    FROM employee
-    LEFT JOIN role ON employee.role_id = roles.id
-    LEFT JOIN department ON role.department_id = departments.id
-    LEFT JOIN employee manager ON manager.id = employee.manager_id`
-
-    connection.query(query, function (err, res) {
-        if (err) throw err;
-        console.table(res);
-        console.log("You viewed all employees!\n");
-    
-        prompts();
-    });
-}
-
 //view all employees by department 
 function viewAllEmployeesByDepartment() {
     console.log("Viewing all employees by department\n");
@@ -153,7 +134,7 @@ function viewAllEmployeesByDepartment() {
     });
 }
 
-//view all employees
+//view all roles
 function viewAllRoles() {
     console.log("Viewing all roles\n");
 
@@ -167,6 +148,22 @@ function viewAllRoles() {
         prompts();
     });
 }
+
+//view all employees
+function viewAllEmployees() {
+    console.log("Viewing employees\n");
+
+    var query = `SELECT * FROM employee`
+
+    connection.query(query, function (err, res) {
+        if (err) throw err;
+        console.table(res);
+        console.log("You viewed all employees!\n");
+    
+        prompts();
+    });
+}
+
 //creates an array of all departments 
 function promptDepartments(listOfDepartments) {
     inquirer.prompt([
