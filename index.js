@@ -154,7 +154,6 @@ function viewAllEmployees() {
     console.log("Viewing employees\n");
 
     var query = `SELECT * FROM employee`
-
     connection.query(query, function (err, res) {
         if (err) throw err;
         console.table(res);
@@ -163,80 +162,117 @@ function viewAllEmployees() {
         prompts();
     });
 }
+// //add a department
+// function addDepartment() {
 
-//creates an array of all departments 
-function promptDepartments(listOfDepartments) {
-    inquirer.prompt([
-        {
-            type: 'list',
-            name: 'department_id',
-            message: 'Which department would you like to view?',
-            choices: listOfDepartments
-        }
-    ])
-        .then(function (answer) {
-            console.log("answer", answer.department_id);
-            var query = `SELECT employees.id, employees.first_name, employees.last_name, roles.title, departments.name AS department, roles.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager
-            FROM employee
-            LEFT JOIN role ON employees.role_id = roles.id
-            LEFT JOIN department ON roles.department_id = departments.id
-            LEFT JOIN employee manager ON manager.id = employee.manager_id
-            WHERE departments.id = ?`
+// }
 
-            connection.query(query, answer.department_id, function (err, res) {
-                if (err) throw err;
-                console.table("response", res);
-                console.log(res.affectedRows + "You viewed all employees by department!\n");
-                prompts();
-            });
-        }); 
-}
 
 //add employee and create array 
 function addEmployee() {
     console.log("Adding an employee\n");
-    var query = `SELECT roles.id, roles.job_title, roles.salary, departments.dept_name AS department
-    FROM roles`
+    var query = `SELECT * FROM employee`
 connection.query(query, function (err, res) {
     if (err) throw err;
-    
-    const listOfRoles = res.map(({ id, title, salary, department }) => ({
-        value: id, title: `${title}`, salary: `${salary}`, department: `${department}`
+    const listOfRoles = res.map(({id, first_name, last_name, department_id, role_id, manager_id}) => ({
+        value: `${id}`, first: `${first_name}`, last: `${last_name}`, department: `${department_id}`, role: `${role_id}`, manager: `${manager_id}`
     }));
 
-    console.table(res);
-    console.log("Choose role\n");
+    console.table(res)
 
-    promptEmployee(listOfRoles);
-}
-)};
+    addEmployeePrompts();
+
+})};
 
 //prompts and choices for adding employee
-function promptInsert(listOfRoles) {
+function addEmployeePrompts() {
+
     inquirer.prompt([
         {
-            name: 'first_name',
-            type: 'input',
-            message: 'What is the employee first name?'
+            type: "input",
+            name: "newEmployeeId",
+            message: "What is the employee's ID?",
+            validate: prompt => {
+                if (prompt) {
+                    return true;
+                } else {
+                    console.log ("Please enter an ID!");
+                    return false; 
+                }
+            }
         },
         {
-            name: 'last_name',
-            type: 'input',
-            message: 'What is the employee last name?'
+            type: "input",
+            name: "newEmployeeFirst",
+            message: "What is the employee's first name?",
+            validate: prompt => {
+                if (prompt) {
+                    return true;
+                } else {
+                    console.log ("Please enter a name!");
+                    return false; 
+                }
+            }
         },
         {
-            type: 'list',
-            name: 'role_id',
-            message: 'What is the employee role id?',
-            choices: listOfRoles
-        }
+            type: "input",
+            name: "newEmployeeLast",
+            message: "What is the employee's last name?",
+            validate: prompt => {
+                if (prompt) {
+                    return true;
+                } else {
+                    console.log ("Please enter a name!");
+                    return false; 
+                }
+            }
+        },
+        {
+            type: "input",
+            name: "newEmployeeId",
+            message: "What is the employee's department ID?",
+            validate: prompt => {
+                if (prompt) {
+                    return true;
+                } else {
+                    console.log ("Please enter an ID!");
+                    return false; 
+                }
+            }
+        },
+        {
+            type: "input",
+            name: "newEmployeeRole",
+            message: "What is the employee's role ID?",
+            validate: prompt => {
+                if (prompt) {
+                    return true;
+                } else {
+                    console.log ("Please enter an ID!");
+                    return false; 
+                }
+            }
+        },
+        {
+            type: "input",
+            name: "newEmployeeManager",
+            message: "What is the employee's manager ID?",
+            validate: prompt => {
+                if (prompt) {
+                    return true;
+                } else {
+                    console.log ("Please enter an ID!");
+                    return false; 
+                }
+            }
+        },
     ])
-        .then(function (answer) {
-            console.log("answer", answer);
+        .then(function (prompt) {
+            console.log("answer", prompt);
             
-            var query = `INSERT INTO employee SET ?`
+            var query = `INSERT ${prompt} INTO employee SET ?,?,?,?,?,?`
             
-            connection.query(query, answer, function (err, res) {
+            connection.query(query, prompt, function (err, res) {
                 if (err) throw err;
                 console.table("response", res);
                 console.log(res.affectedRows + "You added an employee!\n");
