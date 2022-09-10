@@ -162,7 +162,7 @@ function viewAllRoles() {
     connection.query(query, function (err, res) {
         if (err) throw err;
         console.table(res);
-        console.log("You viewed all employees!\n");
+        console.log("You viewed all roles!\n");
     
         prompts();
     });
