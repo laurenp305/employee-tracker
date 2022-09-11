@@ -181,13 +181,13 @@ function addDepartment() {
 };
 
 //prompts and choices for adding employee
-function addEmployeePrompts() {
+function addDepartmentPrompts() {
 
     inquirer.prompt([
         {
             type: "input",
-            name: "newEmployeeId",
-            message: "What is the employee's ID?",
+            name: "newDeptId",
+            message: "What is the department ID?",
             validate: prompt => {
                 if (prompt) {
                     return true;
@@ -199,65 +199,13 @@ function addEmployeePrompts() {
         },
         {
             type: "input",
-            name: "newEmployeeFirst",
-            message: "What is the employee's first name?",
+            name: "newDepartmentName",
+            message: "What is the department name?",
             validate: prompt => {
                 if (prompt) {
                     return true;
                 } else {
                     console.log("Please enter a name!");
-                    return false;
-                }
-            }
-        },
-        {
-            type: "input",
-            name: "newEmployeeLast",
-            message: "What is the employee's last name?",
-            validate: prompt => {
-                if (prompt) {
-                    return true;
-                } else {
-                    console.log("Please enter a name!");
-                    return false;
-                }
-            }
-        },
-        {
-            type: "input",
-            name: "newEmployeeId",
-            message: "What is the employee's department ID?",
-            validate: prompt => {
-                if (prompt) {
-                    return true;
-                } else {
-                    console.log("Please enter an ID!");
-                    return false;
-                }
-            }
-        },
-        {
-            type: "input",
-            name: "newEmployeeRole",
-            message: "What is the employee's role ID?",
-            validate: prompt => {
-                if (prompt) {
-                    return true;
-                } else {
-                    console.log("Please enter an ID!");
-                    return false;
-                }
-            }
-        },
-        {
-            type: "input",
-            name: "newEmployeeManager",
-            message: "What is the employee's manager ID?",
-            validate: prompt => {
-                if (prompt) {
-                    return true;
-                } else {
-                    console.log("Please enter an ID!");
                     return false;
                 }
             }
@@ -265,11 +213,11 @@ function addEmployeePrompts() {
     ]) 
 
         .then(function (res) {
-            var query = `INSERT INTO employee (id, first_name, last_name, department_id, role_id, manager_id) VALUES (?, ?, ?, ?, ?, ?)`;
-            connection.query(query, [res.newEmployeeId, res.newEmployeeFirst, res.newEmployeeLast, res.newEmployeeId, res.newEmployeeRole, res.newEmployeeManager], function (err, res) {
+            var query = `INSERT INTO department (id, dept_name) VALUES (?, ?)`;
+            connection.query(query, [res.newDeptId, res.newDepartmentName], function (err, res) {
                 // if (err) throw err;
                 console.table(res);
-                console.log("You added an employee!\n");
+                console.log("You added a department!\n");
                 prompts();
             });
         });
