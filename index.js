@@ -466,6 +466,50 @@ function promptDeleteDept(removeDepartmentChoices) {
         });
 };
 
+//REMOVE DEPARTMENT//
+function removeRole() {
+    console.log("Removing a role\n");
+    var query = `SELECT * FROM roles`
+
+    connection.query(query, function (err, res) {
+        if (err) throw err;
+
+        const removeRoleChoices = res.map(({ id, job_title, salary, department_id }) => ({
+            value: id, title: `${job_title}`, salary: `${salary}`, departmentId: `${department_id}`
+        }));
+
+        console.table(res);
+        console.log("Choose role to remove\n");
+
+        promptDeleteDept(removeRoleChoices);
+    }
+    )
+};
+
+//Prompts choices to user so they can delete an employee
+function promptDeleteRole(removeRoleChoices) {
+    inquirer.prompt([
+        {
+            type: 'list',
+            name: 'id',
+            message: 'Which department would you like to remove?',
+            choices: removeDepartmentChoices
+        }
+    ])
+        .then(function (answer) {
+            console.log("answer", answer);
+
+            var query = `DELETE FROM departments WHERE ?`
+
+            connection.query(query, answer, function (err, res) {
+                // if (err) throw err;
+                console.table("response", res);
+                console.log(res.affectedRows + "You removed a department!\n");
+
+                prompts();
+            });
+        });
+};
 
 //REMOVE EMPLOYEE//
 function removeEmployee() {
