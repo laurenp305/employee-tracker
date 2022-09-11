@@ -424,42 +424,43 @@ function addEmployeePrompts() {
 //REMOVE DEPARTMENT//
 function removeDepartment() {
     console.log("Removing a department\n");
-    var query = `SELECT * FROM department`
+    var query = `SELECT * FROM departments`
 
     connection.query(query, function (err, res) {
         if (err) throw err;
 
         const removeDepartmentChoices = res.map(({ id, dept_name }) => ({
-            value: id, departmentName : `${dept_name}`
+            value: id, departmentName: `${dept_name}`
         }));
 
         console.table(res);
         console.log("Choose department to remove\n");
 
-        promptDelete(removeDepartmentChoices);
+        promptDeleteDept(removeDepartmentChoices);
     }
     )
 };
 
 //Prompts choices to user so they can delete an employee
-function promptDelete(removeEmployeeChoices) {
+function promptDeleteDept(removeDepartmentChoices) {
     inquirer.prompt([
         {
             type: 'list',
             name: 'id',
-            message: 'Which employee would you like to remove?',
-            choices: removeEmployeeChoices
+            message: 'Which department would you like to remove?',
+            choices: removeDepartmentChoices
         }
     ])
         .then(function (answer) {
             console.log("answer", answer);
 
-            var query = `DELETE FROM employee WHERE ?`
+            var query = `DELETE FROM departments WHERE ?`
 
             connection.query(query, answer, function (err, res) {
-                if (err) throw err;
+                // if (err) throw err;
                 console.table("response", res);
-                console.log(res.affectedRows + "You removed an employee!\n");
+                console.log(res.affectedRows + "You removed a department!\n");
+
                 prompts();
             });
         });
