@@ -16,8 +16,7 @@ CREATE TABLE roles (
   job_title VARCHAR(30) NOT NULL,
   salary INT,
   department_id INT,
-  PRIMARY KEY(id),
-  FOREIGN KEY(department_id) REFERENCES departments(id)
+  PRIMARY KEY(id)
 );
 
 -- creates employee table with foreign keys to departments table, roles table, and the same table --
@@ -28,11 +27,6 @@ CREATE TABLE employee (
   department_id INT,
   role_id INT NOT NULL,
   manager_id INT DEFAULT NULL,
-  PRIMARY KEY(id),
-  FOREIGN KEY(department_id) REFERENCES departments(id),
-  FOREIGN KEY(role_id) REFERENCES roles(id),
-  FOREIGN KEY(manager_id) REFERENCES employee(id)
+  PRIMARY KEY(id)
 );
 
--- makes manager ID null if no manager is assigned --
-update employee set manager_id = NULL where manager_id = 0;
