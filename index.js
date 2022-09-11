@@ -246,8 +246,8 @@ function addRolePrompts() {
     inquirer.prompt([
         {
             type: "input",
-            name: "newDeptId",
-            message: "What is the department ID?",
+            name: "newRoleId",
+            message: "What is the role ID?",
             validate: prompt => {
                 if (prompt) {
                     return true;
@@ -259,8 +259,34 @@ function addRolePrompts() {
         },
         {
             type: "input",
-            name: "newDepartmentName",
-            message: "What is the department name?",
+            name: "newRoleTitle",
+            message: "What is the role title?",
+            validate: prompt => {
+                if (prompt) {
+                    return true;
+                } else {
+                    console.log("Please enter a title!");
+                    return false;
+                }
+            }
+        },
+        {
+            type: "input",
+            name: "newRoleSalary",
+            message: "What is the role salary?",
+            validate: prompt => {
+                if (prompt) {
+                    return true;
+                } else {
+                    console.log("Please enter a salary!");
+                    return false;
+                }
+            }
+        },
+        {
+            type: "input",
+            name: "newRoleDepartment",
+            message: "What is the role name?",
             validate: prompt => {
                 if (prompt) {
                     return true;
@@ -274,10 +300,10 @@ function addRolePrompts() {
 
         .then(function (res) {
             var query = `INSERT INTO department (id, dept_name) VALUES (?, ?)`;
-            connection.query(query, [res.newDeptId, res.newDepartmentName], function (err, res) {
+            connection.query(query, [res.newRoleId, res.newRoleTitle, res.newRoleSalary, res.newRoleDepartment], function (err, res) {
                 // if (err) throw err;
                 console.table(res);
-                console.log("You added a department!\n");
+                console.log("You added a role!\n");
                 prompts();
             });
         });
