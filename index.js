@@ -223,6 +223,65 @@ function addDepartmentPrompts() {
         });
 };
 
+//add employee and create array 
+function addRole() {
+    console.log("Adding a role\n");
+    var query = `SELECT * FROM roles`
+    connection.query(query, function (err, res) {
+        if (err) throw err;
+        const listOfRoles = res.map(({ id, job_title, salary, department_id }) => ({
+            value: `${id}`, department_name: `${dept_name}`, job: `${job_title}`, salary: `${salary}`, department_id: `${department_id}`
+        }));
+
+        console.table(res)
+
+        addRolePrompts();
+
+    })
+};
+
+//prompts and choices for adding employee
+function addRolePrompts() {
+
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "newDeptId",
+            message: "What is the department ID?",
+            validate: prompt => {
+                if (prompt) {
+                    return true;
+                } else {
+                    console.log("Please enter an ID!");
+                    return false;
+                }
+            }
+        },
+        {
+            type: "input",
+            name: "newDepartmentName",
+            message: "What is the department name?",
+            validate: prompt => {
+                if (prompt) {
+                    return true;
+                } else {
+                    console.log("Please enter a name!");
+                    return false;
+                }
+            }
+        },
+    ]) 
+
+        .then(function (res) {
+            var query = `INSERT INTO department (id, dept_name) VALUES (?, ?)`;
+            connection.query(query, [res.newDeptId, res.newDepartmentName], function (err, res) {
+                // if (err) throw err;
+                console.table(res);
+                console.log("You added a department!\n");
+                prompts();
+            });
+        });
+};
 
 //add employee and create array 
 function addEmployee() {
