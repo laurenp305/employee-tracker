@@ -492,19 +492,19 @@ function promptDeleteRole(removeRoleChoices) {
         {
             type: 'list',
             name: 'id',
-            message: 'Which department would you like to remove?',
-            choices: removeDepartmentChoices
+            message: 'Which role would you like to remove?',
+            choices: removeRoleChoices
         }
     ])
         .then(function (answer) {
             console.log("answer", answer);
 
-            var query = `DELETE FROM departments WHERE ?`
+            var query = `DELETE FROM roles WHERE ?`
 
             connection.query(query, answer, function (err, res) {
                 // if (err) throw err;
                 console.table("response", res);
-                console.log(res.affectedRows + "You removed a department!\n");
+                console.log(res.affectedRows + "You removed a role!\n");
 
                 prompts();
             });
