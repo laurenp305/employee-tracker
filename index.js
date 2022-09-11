@@ -164,6 +164,119 @@ function viewAllEmployees() {
 };
 
 //add employee and create array 
+function addDepartment() {
+    console.log("Adding a department\n");
+    var query = `SELECT * FROM departments`
+    connection.query(query, function (err, res) {
+        if (err) throw err;
+        const listOfRoles = res.map(({ id, dept_name }) => ({
+            value: `${id}`, department: `${dept_name}`
+        }));
+
+        console.table(res)
+
+        addDepartmentPrompts();
+
+    })
+};
+
+//prompts and choices for adding employee
+function addEmployeePrompts() {
+
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "newEmployeeId",
+            message: "What is the employee's ID?",
+            validate: prompt => {
+                if (prompt) {
+                    return true;
+                } else {
+                    console.log("Please enter an ID!");
+                    return false;
+                }
+            }
+        },
+        {
+            type: "input",
+            name: "newEmployeeFirst",
+            message: "What is the employee's first name?",
+            validate: prompt => {
+                if (prompt) {
+                    return true;
+                } else {
+                    console.log("Please enter a name!");
+                    return false;
+                }
+            }
+        },
+        {
+            type: "input",
+            name: "newEmployeeLast",
+            message: "What is the employee's last name?",
+            validate: prompt => {
+                if (prompt) {
+                    return true;
+                } else {
+                    console.log("Please enter a name!");
+                    return false;
+                }
+            }
+        },
+        {
+            type: "input",
+            name: "newEmployeeId",
+            message: "What is the employee's department ID?",
+            validate: prompt => {
+                if (prompt) {
+                    return true;
+                } else {
+                    console.log("Please enter an ID!");
+                    return false;
+                }
+            }
+        },
+        {
+            type: "input",
+            name: "newEmployeeRole",
+            message: "What is the employee's role ID?",
+            validate: prompt => {
+                if (prompt) {
+                    return true;
+                } else {
+                    console.log("Please enter an ID!");
+                    return false;
+                }
+            }
+        },
+        {
+            type: "input",
+            name: "newEmployeeManager",
+            message: "What is the employee's manager ID?",
+            validate: prompt => {
+                if (prompt) {
+                    return true;
+                } else {
+                    console.log("Please enter an ID!");
+                    return false;
+                }
+            }
+        },
+    ]) 
+
+        .then(function (res) {
+            var query = `INSERT INTO employee (id, first_name, last_name, department_id, role_id, manager_id) VALUES (?, ?, ?, ?, ?, ?)`;
+            connection.query(query, [res.newEmployeeId, res.newEmployeeFirst, res.newEmployeeLast, res.newEmployeeId, res.newEmployeeRole, res.newEmployeeManager], function (err, res) {
+                // if (err) throw err;
+                console.table(res);
+                console.log("You added an employee!\n");
+                prompts();
+            });
+        });
+};
+
+
+//add employee and create array 
 function addEmployee() {
     console.log("Adding an employee\n");
     var query = `SELECT * FROM employee`
