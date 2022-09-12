@@ -596,8 +596,8 @@ function updateEmployeeRole(employee){
     roles.salary 
   FROM roles`
 
-  connection.query(query,(err, res)=>{
-    if(err)throw err;
+  connection.query(query,(res)=>{
+    // if(err)throw err;
     let roleChoices = res.map(({ id, job_title, salary }) => ({
       value: id, 
       title: `${job_title}`, 
