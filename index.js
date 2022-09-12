@@ -115,7 +115,7 @@ function viewAllEmployeesByDepartment() {
     var query =
         `SELECT employees.id, employees.first_name, employees.last_name, roles.job_title, departments.dept_name AS department, roles.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager
     FROM employee
-    LEFT JOIN role ON employee.role_id = roles.id
+    LEFT JOIN roles ON employee.role_id = roles.id
     LEFT JOIN department ON roles.department_id = departments.id
     LEFT JOIN employee manager ON manager.id = employee.manager_id
     ORDER BY departments.dept_name`
@@ -516,7 +516,7 @@ function removeEmployee() {
     console.log("Removing an employee\n");
     var query = `SELECT employee.id, employee.first_name, employee.last_name, roles.job_title, departments.dept_name AS department, roles.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager
     FROM employee
-    LEFT JOIN role ON employee.role_id = roles.id
+    LEFT JOIN roles ON employee.role_id = roles.id
     LEFT JOIN department ON roles.department_id = departments.id
     LEFT JOIN employee manager ON manager.id = employee.manager_id`
 
@@ -562,22 +562,23 @@ function promptDelete(removeEmployeeChoices) {
 //UPDATE EMPLOYEE ROLE//
 function updateRole(){
     let query = `SELECT 
-                    employee.id,
-                    employee.first_name, 
-                    employee.last_name, 
-                    roles.job_title, 
-                    departments.dept_name, 
-                    roles.salary, 
-                    CONCAT(manager.first_name, ' ', manager.last_name) AS manager
-                FROM employee
-                JOIN role
-                    ON employee.role_id = roles.id
-                JOIN department
-                    ON department.id = roles.department_id
-                JOIN employee manager
-                    ON manager.id = employee.manager_id`
+    employee.id,
+    employee.first_name, 
+    employee.last_name, 
+    roles.job_title, 
+    departments.dept_name, 
+    roles.salary, 
+    CONCAT(manager.first_name, ' ', manager.last_name) AS manager
+FROM employee
+JOIN roles
+    ON employee.role_id = roles.id
+JOIN departments
+    ON departments.id = roles.department_id
+JOIN employee manager
+    ON manager.id = employee.manager_id`
   
-    connection.query(query,(res)=>{
+    connection.query(query, (error, res) => {
+    console.log(error);
     //   if(err)throw err;
       const employee = res.map(({ id, first_name, last_name }) => ({
         value: id,
@@ -596,7 +597,7 @@ function updateEmployeeRole(employee){
     roles.salary 
   FROM roles`
 
-  connection.query(query,(res)=>{
+  connection.query(query,(error, res)=>{
     // if(err)throw err;
     let roleChoices = res.map(({ id, job_title, salary }) => ({
       value: id, 
