@@ -113,7 +113,7 @@ function viewAllEmployeesByDepartment() {
     console.log("Viewing all employees by department\n");
 
     var query =
-        `SELECT employees.id, employees.first_name, employees.last_name, roles.job_title, departments.dept_name AS department, roles.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager
+        `SELECT employee.id, employee.first_name, employee.last_name, roles.job_title, departments.dept_name AS department, roles.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager
     FROM employee
     LEFT JOIN roles ON employee.role_id = roles.id
     LEFT JOIN departments ON roles.department_id = departments.id
@@ -130,7 +130,6 @@ function viewAllEmployeesByDepartment() {
         console.table(res);
         console.log("You viewed all employees by department!\n");
 
-        promptDepartments(listOfDepartments);
     });
 }
 
