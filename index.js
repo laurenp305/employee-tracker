@@ -38,7 +38,7 @@ function prompts() {
         message: 'What do you want to see first?',
         choices: [
             'View all departments',
-            'View all employees by deparment',
+            'View all employees by department',
             'View all roles',
             'View all employees',
             'Add a department',
@@ -116,7 +116,7 @@ function viewAllEmployeesByDepartment() {
         `SELECT employees.id, employees.first_name, employees.last_name, roles.job_title, departments.dept_name AS department, roles.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager
     FROM employee
     LEFT JOIN roles ON employee.role_id = roles.id
-    LEFT JOIN department ON roles.department_id = departments.id
+    LEFT JOIN departments ON roles.department_id = departments.id
     LEFT JOIN employee manager ON manager.id = employee.manager_id
     ORDER BY departments.dept_name`
 
@@ -213,7 +213,7 @@ function addDepartmentPrompts() {
     ])
 
         .then(function (res) {
-            var query = `INSERT INTO department (id, dept_name) VALUES (?, ?)`;
+            var query = `INSERT INTO departments (id, dept_name) VALUES (?, ?)`;
             connection.query(query, [res.newDeptId, res.newDepartmentName], function (err, res) {
                 // if (err) throw err;
                 console.table(res);
@@ -299,7 +299,7 @@ function addRolePrompts() {
     ])
 
         .then(function (res) {
-            var query = `INSERT INTO department (id, dept_name) VALUES (?, ?)`;
+            var query = `INSERT INTO departments (id, dept_name) VALUES (?, ?)`;
             connection.query(query, [res.newRoleId, res.newRoleTitle, res.newRoleSalary, res.newRoleDepartment], function (err, res) {
                 // if (err) throw err;
                 console.table(res);
@@ -517,7 +517,7 @@ function removeEmployee() {
     var query = `SELECT employee.id, employee.first_name, employee.last_name, roles.job_title, departments.dept_name AS department, roles.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager
     FROM employee
     LEFT JOIN roles ON employee.role_id = roles.id
-    LEFT JOIN department ON roles.department_id = departments.id
+    LEFT JOIN departments ON roles.department_id = departments.id
     LEFT JOIN employee manager ON manager.id = employee.manager_id`
 
     connection.query(query, function (err, res) {
