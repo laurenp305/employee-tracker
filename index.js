@@ -634,5 +634,4 @@ function promptUpdatedRole(employee, roleChoices) {
     });
 }
 
-
 prompts();
