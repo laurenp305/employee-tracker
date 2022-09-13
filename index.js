@@ -130,6 +130,8 @@ function viewAllEmployeesByDepartment() {
         console.table(res);
         console.log("You viewed all employees by department!\n");
 
+        prompts();
+
     });
 }
 
@@ -584,6 +586,7 @@ JOIN employee manager
          name: `${first_name} ${last_name}`      
       }));
       console.table(res);
+
       updateEmployeeRole(employee);
     });
 }
@@ -605,6 +608,7 @@ function updateEmployeeRole(employee){
     }));
     console.table(res);
     promptUpdatedRole(employee, roleChoices);
+
   });
 }
   
@@ -628,6 +632,8 @@ function promptUpdatedRole(employee, roleChoices) {
       let query = `UPDATE employee SET role_id = ? WHERE id = ?`
       connection.query(query,[ res.role, res.employee],(err, res)=>{
           if(err)throw err;
+          console.log("You updated an employee's role!\n");
+
           prompts();
         });
     });
