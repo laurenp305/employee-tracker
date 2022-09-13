@@ -30,9 +30,9 @@ So that I can organize and plan my business
 1. Clone code from GitHub
 2. Open project directory, then npm instal in terminal to install all necessary dependencies
 
-## Application Demo & Screenshots 
+## Application Demo Link
 
-
+https://drive.google.com/file/d/12SsygDYc5aWmv6BfgkfLA9m_pScdYWe0/view
 
 ## Contact Information
 
